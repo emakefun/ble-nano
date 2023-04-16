@@ -101,125 +101,89 @@ ble-nano烧写的为最新Arduino Nano官方Bootloader所以需要使用IDE 1.8.
 
 # ble-nano和电子设备连接
 
-## Ble-Nano和安卓手机连接
+## ble-nano和安卓手机连接
 
-1)	打开Arduino IDE，连接串口
+1)	打开ble控制程序[ble_control_led.ino](./example/ble_contorl_led/ble_contorl_led.ino)主板上Link（引脚13）上的LED灯程序
 
+```c
+String ble_data;
+int led_pin = 13;
 
+void setup() {
+  Serial.begin(115200);
+  ble_data = "";
+  pinMode(led_pin, OUTPUT);
+}
 
-![18](Ble-Nano_pic_zh/18.png)
+void loop() {
+  while (Serial.available() > 0)  
+  {
+      ble_data += char(Serial.read());
+      delay(2);
+  }
+  if (ble_data.compareTo("on") == 0) {
+    Serial.println("turn on led");
+    digitalWrite(led_pin, HIGH);
+  }
+  if (ble_data.compareTo("off") == 0) {
+    Serial.println("turn off led");
+    digitalWrite(led_pin, LOW);
+  }   
+  ble_data = "";
+}
+```
 
+2)	安卓或则IOS从设置中是无法连接使用的，因为手机设置都是只能连接经典蓝牙兼容蓝牙耳机，蓝牙麦克风等外设，不能连接低功耗蓝牙。安卓手机（android4.2系统版本以上）安装[BleToolsTest](https://github.com/nulllaborg/BleTools/raw/master/NulllabBlutooth/app/release/BleToolsTest.apk) 可以参考开源[Android源代码](https://github.com/nulllaborg/BleTools)  (注意需要打开蓝牙，和定位权限)如下图操作）
 
+|                                                              |                                                              |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| <img src="./image/location_permissions1.png" alt="location_permissions1" style="zoom: 33%;" /> | <img src="./image/location_permissions2.png" alt="location_permissions2" style="zoom: 33%;" /> |
 
-<img src="Ble-Nano_pic_zh/19.png" alt="19" style="zoom:50%;" />
-
-2)	测试AT指令，设置BLE-Nano的USB和蓝牙数据传输模式设置为USB串口数据和BLE透传
-
-注意如果是其他串口助手一定要发送回车换行作为结束符。
-
-![20](Ble-Nano_pic_zh/20.png)
-
-![21](Ble-Nano_pic_zh/21.png)
-
-
-
-3)	安卓或则IOS从设置中是无法连接使用的，因为手机设置都是只能连接经典蓝牙兼容蓝牙耳机，蓝牙麦克风等外设，不能连接低功耗蓝牙。安卓手机（android4.2以上）安装BLE_TOOL.apk (注意需要打开蓝牙，和定位权限)如下图操作
-
-
-
-![22](Ble-Nano_pic_zh/22.png)
-
-![23](Ble-Nano_pic_zh/23.png)
-
-
-
-（IOS手机应用商城搜索安装LightBlue），打开测试APP,界面。找到对应的蓝牙名（Ble-Nano）并点击进行连接,连接，此时会出现4个选项，分别用于测试不同的功能，因为这里我们只测试蓝牙是否可以正常收发数据，所以我们选择SK Service入，再选择SK_KEYPRESSED
-
-![24](Ble-Nano_pic_zh/24.png)
-
-
-
-![25](Ble-Nano_pic_zh/25.png)
-
-![26](Ble-Nano_pic_zh/26.png)
+3）打开测试APP,界面。找到对应的蓝牙名（ble-nano4.2/ble-nano5.3）并点击进行连接，此时会出现4个选项，分别用于测试不同的功能，因为这里我们只测试蓝牙是否可以正常收发数据，所以我们选择SK Service入，再选择SK_KEYPRESSED
 
 
 
-![27](Ble-Nano_pic_zh/27.png)
-
-
+|                                                              |                                                              |                                                              |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| <img src="./image/android_app_test1.jpg" alt="location_permissions1" style="zoom: 33%;" /> | <img src="./image/android_app_test2.jpg" alt="location_permissions1" style="zoom: 33%;" /> | <img src="./image/android_app_test1-1.jpg" alt="location_permissions1" style="zoom: 33%;" /> |
 
 4)	我们选择“SK-KEYPRESSED”,点击后如图3.1.9我们可以看到有一个“写入”按键，点击即可进入，我们点击“红色框”即可输入想发送的数据，输入完成后点击“发送”即可将数据发出去
 
-![28](Ble-Nano_pic_zh/28.png)
 
 
+|                                                              |                                                              |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| <img src="./image/android_app_test3.jpg" alt="location_permissions1" style="zoom: 33%;" /> | <img src="./image/android_app_test4.jpg" alt="location_permissions1" style="zoom: 33%;" /> |
 
-![29](Ble-Nano_pic_zh/29.png)
-
-
-
-5)	点击发送后，我们可以看到串口监视器上打印出了手机端发送的内容，如图3.1.11示，说明蓝牙模块是可以正常发送数据的，当然，为了测试准确度更高，可以多测试几次，并尝试在不同的环境中测试。
-
+5)	点击发送字符串"on"后，打开ArduinoIDE的串口监视器上打印 turn on led，同时观察ble-nano上的L灯点亮，代表app蓝牙控制主板上的L灯成功，同样的方法发送字符串“off”后，ble-nano上的L灯会熄灭。到此我们安卓手机蓝牙测试完成。
 
 
-![30](Ble-Nano_pic_zh/30.png)
+## ble-nano和苹果手机/电脑/平板连接
 
+1)	在APP store 中搜索LightBlue,下载软件LightBlue RExplorer，并打开。
 
+|                                                              |                                                              |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| <img src="./image/ios_app_test1.png" alt="location_permissions1"  /> | <img src="./image/ios_app_test2.png" alt="location_permissions1"  /> |
 
-6） 我们可以在串口监视器上输入想发送的内容，完成后点击“Send”，便可将数据通过蓝牙发送到手机APP上
+2)	安装APP后，打开APP扫描到ble-nano,并连接
 
-在上面的测试过程中，PC端和安卓端都可正常收发数据，说明Ble-Nano通讯正常，达到预期的效果.
+|                                                              |                                                              |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| <img src="./image/ios_app_test3.jpg" alt="location_permissions1" style="zoom:33%;" /> | <img src="./image/ios_app_test4.jpg" alt="location_permissions1" style="zoom:33%;" /> |
 
+4)	选择字符类型，并点击Write  new value，输入字符即可给ble-nano发送数据。
 
+|                                                              |                                                              |                                                              |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| <img src="./image/ios_app_test5.jpg" alt="location_permissions1" style="zoom:33%;" /> | <img src="./image/ios_app_test6.jpg" alt="location_permissions1" style="zoom:33%;" /> | <img src="./image/ios_app_test7.jpg" alt="location_permissions1" style="zoom:33%;" /> |
 
-![31](Ble-Nano_pic_zh/31.png)
-
-![32](Ble-Nano_pic_zh/32.png)
-
-
-
-
-## Ble-Nano和苹果手机连接
-
-1)	在APP store 中搜索LightBlue,下载软件LightBlue○RExplorer。
-
-
-
-![33](Ble-Nano_pic_zh/33.png)
-
-2)	安装APP后，打开APP扫描到BLE-NANO
-
-![34](Ble-Nano_pic_zh/34.png)
-
-![35](Ble-Nano_pic_zh/35.png)
-
-
-
-
-
-3)	连接BLE-NANO蓝牙
-
-
-
-![36](Ble-Nano_pic_zh/36.png)
-
-4)	选择字符类型，并点击Write  new value，输入字符即可给BLE-NANO 发送数据。
-
-
-
-![37](Ble-Nano_pic_zh/37.png)
-
-
-
-![39](Ble-Nano_pic_zh/39.png)
-
-
+5) 点击done后会发送字符串"on"后，打开ArduinoIDE的串口监视器上打印 turn on led，同时观察ble-nano上的L灯点亮，代表app蓝牙控制主板上的L灯成功，同样的方法发送字符串“off”后，ble-nano上的L灯会熄灭。到此我们IOS蓝牙测试完成。
 
 
 ## Ble-Nano和Win10蓝牙连接
 
-同样道理win10的设置里面是无法和我们BLE-Nano连接的，它只能连接经典蓝牙，但是我们可以微软官方应用商城下载 BluetoothLEExplorer
+同样道理带蓝牙的笔记本电脑win10的设置里面是无法和我们ble-nano连接的，它只能连接经典蓝牙，我们去微软官方应用商城下载 BluetoothLEExplorer
 
 ![40](Ble-Nano_pic_zh/40.png)
 
@@ -265,7 +229,7 @@ Ble-Nano发送hellowin10
 
 ## AT指令集
 
-ble-nano的AT指令可通过Arduino Uno自带的硬件串口0（RX)、1 (TX）控制，波特率支持9600,19200,38400,57600,115200。ble-nano串口默认波特率为115200bps。
+ble-nano的AT指令可通过Arduino自带的硬件串口0（RX)、1 (TX）控制，波特率支持9600、19200、38400、57600、115200。ble-nano串口默认波特率为115200bps。
 
 AT指令还可以通过直连TypeC数据线直连控制和APP的为0xFFE2的characteristics来控制。
 
@@ -307,51 +271,61 @@ AT指令还可以通过直连TypeC数据线直连控制和APP的为0xFFE2的char
 |---- | ----| ----|
 |AT  |	OK | 无 |
 
-2、	打印Ble-Uno所有配置信息指令
+2、	打印ble-nano的所有配置信息
 
 | 指令 | 响应 | 参数 |
 |---- | ----| ----|
 |AT+ALL  | 详细配置信息<br />OK | 无 |
 
-3、	配置串口波特率
+3、软件复位蓝牙芯片指令
+
+| 指令     | 响应 | 参数 |
+| -------- | ---- | ---- |
+| AT+RESET | 无   | 无   |
+
+4、复位Arduino主控指令
+
+| 指令           | 响应 | 参数 |
+| -------------- | ---- | ---- |
+| AT+RESET_TARGE | OK   | 无   |
+
+5、查询ble-nano固件版本
+
+| 指令   | 响应                                                   | 参数 |
+| ------ | ------------------------------------------------------ | ---- |
+| AT+VER | +VERSION=v1.0<br/>+DATE=Apr 16 2023<br/>+TIME=<br/> OK | 无   |
+
+6、配置串口波特率
 
 | 指令 | 响应 | 参数 |
 |---- | ----| ----|
 |AT+BAUD=< Param>  | +BAUD=<  baud ><br />OK | 0:9600 <br>1:19200 <br>2:38400 <br>3:57600 <br>4:115200 |
 
-
-
-6、	配置蓝牙名字
+7、配置蓝牙名字指令
 
 | 指令 | 响应 | 参数 |
 |---- | ----| ----|
-|AT+NAME=< Param > |	OK+Name=< Param >+SUCCESS	 | 蓝牙名字 |
+|AT+NAME=< Param > |	+NAME=< param ><br />OK	| 蓝牙名字 |
 
-7、	查询Ble-Uno固件版本
-
-| 指令 | 响应 | 参数 |
-|---- | ----| ----|
-| AT+VER | 	OK+Version=<  Result  > | 无 |
-
-8、	查询蓝牙的Mac地址
+8、查询或者设置蓝牙的Mac地址
 
 | 指令 | 响应 | 参数 |
 |---- | ----| ----|
-|AT+MAC |	OK+Mac=< Result >	 | 无 |
+|AT+MAC |	+MAC=< Result ><br />OK	| 无 |
 
-9、	查询设置蓝牙主从模式
-
-| 指令 | 响应 | 参数 |
-|---- | ----| ----|
-|AT+ROLE=< Param > |	OK+RoleMode=< Param >+SUCCESS | 0:主机 <br> 1:从机 |
-
-10、	蓝牙主从模式下扫描附近从机
+9、查询设置蓝牙主从模式
 
 | 指令 | 响应 | 参数 |
 |---- | ----| ----|
-| AT+SCAN |	OK+Scan <br> OK+DISC[0]:xxxx <br> OK+DISC[1]:xxxx <br> …… <br> OK+SCAN DONE |	无 |
+|AT+ROLE=< Param > |	+ROLE=< Param ><br />OK | 0:主机 <br> 1:从机 |
 
-11、	通过扫描返回下标连接从机蓝牙
+10、蓝牙主从模式下扫描附近从机
+
+| 指令 | 响应 | 参数 |
+|---- | ----| ----|
+| AT+SCAN |	+SCAN <br> OK<br />mac[1]:xxxx <br>mac[2]:xxxx <br/> …… <br> |	无 |
+
+11、通过扫描返回下标连接从机蓝牙
 
 | 指令 | 响应 | 参数 |
 |---- | ----| ----|
@@ -363,99 +337,84 @@ AT指令还可以通过直连TypeC数据线直连控制和APP的为0xFFE2的char
 |---- | ----| ----|
 | AT+CON=< Param > |	OK+CON=< Param > |	从机蓝牙地址 |
 
-OK+Scan
-OK+DISC[0]:3234CFE9D1C3
-OK+DISC[1]:464288AEAB8F
-OK+DISC[2]:3CA5080A62FB
-OK+DISC[3]:30AEA42BF189
-OK+DISC[4]:58803C6EFB0A
-OK+SCAN DONE
++SCAN
+OK
+mac[1] 3e:bb:9e:e4:e9:9a
+mac[2] 8c:5a:f8:ef:5c:f8
+mac[3] 6b:9c:b3:c4:4b:0c
+mac[4] 17:cc:ef:66:40:b1
+mac[5] fd:e2:4e:af:ea:da
+mac[6] 67:3a:b1:45:c2:e8
+mac[7] d0:44:7a:9e:e4:e4
+OK
 AT+CONN=1代表连接扫描得到的第二个蓝牙设备
-AT+CON=464288AEAB8F 直接连接Mac地址为464288AEAB8F的设备
+AT+CON=d0:44:7a:9e:e4:e4直接连接Mac地址为d0:44:7a:9e:e4:e4的设备
 
-13、	开启蓝牙自动连接模式    开启后，蓝牙模块将自动连接上次成功连接过的设备
-
-| 指令 | 响应 | 参数 |
-|---- | ----| ----|
-| AT+AUTOCON=<  Param  > | OK+AUTOCON=<  Param  >+SUCCESS |  0:关闭自动连接 <br>1:开机自动连接  |
-
-14、	断开当前连接蓝牙设备
+13、开启蓝牙自动连接模式    开启后，蓝牙模块将自动连接上次成功连接过的设备
 
 | 指令 | 响应 | 参数 |
 |---- | ----| ----|
-| AT+DISCON |	OK+Disconnect |	无 |
+| AT+AUTOCON=<  Param  > | +AUTOCON=<  Param  ><br />OK |  0:关闭自动连接 <br>1:开机自动连接  |
 
-15、	设置蓝牙的连接是否需要密码
-
-| 指令 | 响应 | 参数 |
-|---- | ----| ----|
-| AT+AUTH=<  Param  >  | OK+AuthMode=< Param >+SUCCESS | 0:连接无密码 <br>1:需要密码连接 |
-
-16、	设置蓝牙的连接是密码
+14、断开当前连接蓝牙设备
 
 | 指令 | 响应 | 参数 |
 |---- | ----| ----|
-|AT+ PASS=< Param > |	OK+ PassWord=< Param >+SUCCESS |  |
+| AT+DISCON |	+DISCON<br />OK |	无 |
+
+15、设置蓝牙的连接是否需要密码
+
+| 指令 | 响应 | 参数 |
+|---- | ----| ----|
+| AT+AUTH=<  Param  >  | +AUTH=< Param ><br />OK | 0:连接无密码 <br>1:需要密码连接 |
+
+16、设置蓝牙的连接是密码
+
+| 指令 | 响应 | 参数 |
+|---- | ----| ----|
+|AT+ PASS=< Param > |	+PASS=< Param ><br />OK |  |
 
 17、	设置蓝牙的工作模式
 
 | 指令 | 响应 | 参数 |
 |---- | ----| ----|
-|AT+ MODE=< Param > |	OK+ WorkMode=< Param >+SUCCESS | 0:透传<br>1:驱动模式<br>2:iBeacon |
+|AT+ MODE=< Param > |	+MODE=< Param ><br />OK | 0:透传<br>1:驱动模式<br>2:iBeacon |
 
 18、	设置蓝牙的USB和蓝牙数据传输模式
 
 | 指令 | 响应 | 参数 |
 |---- | ----| ----|
-|AT+ BLEUSB=< Param > | +BLEUSB=< Param ><br />PK |	0:关闭<br>1:USB串口数据传给BLE<br>2:BLE数据传给USB串口<br>3:USB串口数据和BLE透传 |
+|AT+ BLEUSB=< Param > | +BLEUSB=< Param ><br />OK |	0:关闭<br>1:USB串口数据传给BLE<br>2:BLE数据传给USB串口<br>3:USB串口数据和BLE透传 |
 
 19、	设置蓝牙的发射功率
 
 | 指令 | 响应 | 参数 |
 |---- | ----| ----|
-|AT+MINI_INTERVAL=< Param > |	OK+ Mini_Interval=< Param > +SUCCESS |	PC和Android，建议设为为10 <br> iOS设备，建议设置为20 |
+|AT+MINI_INTERVAL=< Param > |	+ MINI_INTERVAL=< Param ><br /> OK |	PC和Android，建议设为为10 <br> iOS设备，建议设置为20 |
 
-20 设置BLE芯片最大通信间隔，以毫秒为单位
-
-| 指令 | 响应 | 参数 |
-|---- | ----| ----|
-|AT+MINI_INTERVAL=< Param > |	OK+ Mini_Interval=< Param >+SUCCESS |	PC和Android，建议设为为10 <br>iOS设备，建议设置为20 |
-
-21、设置BLE芯片最大通信间隔，以毫秒为单位
+20、设置BLE芯片最大通信间隔，以毫秒为单位
 
 | 指令 | 响应 | 参数 |
 |---- | ----| ----|
-|AT+MAX_INTERVAL=< Param >	 | OK+Max_Interval=< Param >+SUCCESS |	PC和Android，建议设为为10 <br> iOS设备，建议设置为40 |
+|AT+MAX_INTERVAL=< Param >	 | + MAX_INTERVAL=< Param ><br /> OK |	PC和Android，建议设为为10 <br> iOS设备，建议设置为40 |
 
-22、设置BLE接收增益
-
-| 指令 | 响应 | 参数 |
-|---- | ----| ----|
-|AT+RXGAIN=< Param > |	OK+RxGain =< Param >+SUCCESS |	0：标准增益 <br>1：高增益 |
-
-23、获取BLE特征码UUID
+21、获取BLE特征码UUID
 
 | 指令 | 响应 | 参数 |
 |---- | ----| ----|
-|AT+SRVUUID	 |Servic UUID=0XFFE0 |  |
+|AT+SERVUUID	 |+SERVUUID=0xffe0<br />OK |  |
 
-24、获取BLE字符特征码
-
-| 指令 | 响应 | 参数 |
-|---- | ----| ----|
-|AT+CHARUUID |	Char UUID=0XFFE1 |  |
-
-25、软件复位
+22、获取BLE字符特征码
 
 | 指令 | 响应 | 参数 |
 |---- | ----| ----|
-|AT+RESETR | 无 |无 |
+|AT+CHARUUID |	+CHARUUID=0xffe0<br />OK |  |
 
-26、系统设置
+23、系统设置
 
 | 指令 | 响应 | 参数 |
 |---- | ----| ----|
-|AT+SETTING=< Param >  | +SUCCESS | DEFAULT恢复出厂设置 <br> PARI_DEFAULT清除配对信息，密码信息 |
+|AT+SETTING=< Param >  | +SETTING=< Param ><br />OK | DEFAULT恢复出厂设置 <br> PARI_DEFAULT清除配对信息，密码信息 |
 
 ## 开发说明
 
@@ -463,7 +422,27 @@ AT+CON=464288AEAB8F 直接连接Mac地址为464288AEAB8F的设备
 1、BLE协议规定每个蓝牙数据包长度不能超过20byte，我们蓝牙模块做了分包发送，但是有低概率丢包，所以超过20个字节的时候，arudino分包发送最为可靠。
 2、每一包数据发送间隔需要超过150ms，否则容易丢包。
 
-## Ble-Nano主从通讯以及结合Processing实际应用
+## AT指令测试
+
+1)	打开Arduino IDE，连接串口
+
+
+
+![18](Ble-Nano_pic_zh/18.png)
+
+
+
+<img src="Ble-Nano_pic_zh/19.png" alt="19" style="zoom:50%;" />
+
+2)	测试AT指令，设置BLE-Nano的USB和蓝牙数据传输模式设置为USB串口数据和BLE透传
+
+注意如果是其他串口助手一定要发送回车换行作为结束符。
+
+![20](Ble-Nano_pic_zh/20.png)
+
+![21](Ble-Nano_pic_zh/21.png)
+
+## 两个ble-nano主从通讯测试
 
 很多时候我们是使用Ble-Nano和Processing来完成自己构想，那么最简单的方案如下图
 
@@ -503,38 +482,27 @@ Step5. AT+CON加从机（COM21)mac地址即可直接连接
 注意如果主机里面有其他程序会影响使用，建议主机arduino烧录一个空白程序进去主机接电脑会虚拟一个端口出来，在我的电脑 设备管理器可以查看到端口号，processing程序选择对应的端口号即可完成通讯
 
 
-## 常见问题
+## 常见问题FAQ
 
-**1)	问：Ble-Nano和普通Nano板有何区别，我要如何开始使用这个开发板**
+**1)	问：ble-nano和其他普通nano板有何区别，我要如何开始使用这个开发板**
 
-答： ble-nano是在原来官方arduino uno r3基础上添加CC2540蓝牙4.0功能
-接口Mini-Usb升级成更加通用Micro-Usb接口，引脚功能完全兼容
-Bootload烧写最新bootload需要使用1.8.8以上IDE才可以烧写，其他使用方法请参考官方arduino nano使用方法。
+答： ble-nano是在原来官方arduino nano v3.0的基础上将ch340G串口芯片更换成带usb接口的蓝牙芯片。它的驱动兼容arduino官方驱动，接口由Mini-Usb升级成Type-C接口，引脚和功能完全兼容普通NanoV3.0。如果没有用到蓝牙使用方法可以参考ArduinoNano使用，要使用蓝牙请看说明书。
 
 **2)	问：蓝牙如何手机电脑连接**
-答： Ble-Nano为Ble设备，不能直接和手机设置里面蓝牙连接，需要通过BLETestTools.apk (IOS LightBlue)连接，如要开发参考源代码二次开发，windows的设置也是经典蓝牙连接方式，需要微软官网参考BLE SDK开发。
+答： ble-nano为低功耗蓝牙设备，不能直接在手机设置里面蓝牙连接，需要通过Android手机的话BLETestTools.apk (IOS LightBlue)连接，如要开发参考源代码二次开发，windows的设置也是经典蓝牙连接方式，需要微软官网参考BLE SDK开发。
 
+**3） 问：为什么我的手机连不上ble-nano，即使可以连上，但也不能通信？**
 
-**3)	问：常见的蓝牙4.0之间通信不正常的问题。**
+答：请检查您的手机是否支持蓝牙4.2。请使用BLE测试APP内的Scan按钮扫描连接ble-nano，连接不需要密码。不支持手机蓝牙设置界面里去连接，手机设置里面是连接经典传统蓝牙设备的。
 
-答：建议检查步骤：
-1 更新固件至最新版本；
-2 通过AT指令恢复出厂设置 (AT+SETTING=DEFAULT). （详见:通过AT指令配置BLE设备 ）
-3 检查蓝牙模块、程序代码等相关地方的通信波特率是否一致；（晶振频率为8MHz的控制板支持最大38400bps的波特率。）
-4.配对蓝牙设备是否支持4.2，不同品牌之间的蓝牙SOC连接之间有可能有兼容性问题，建议使用ble-nano/ble-uno之间进行连接通信
-
-**4） 问：为什么我的手机连不上Ble-Nano，即使可以连上，但也不能通信？**
-
-答：请检查您的手机是否支持蓝牙4.0。另外，请使用APP内的Scan按钮扫描连接Ble-Nano，连接不需要密码。不支持手机蓝牙设置界面、其他BLE APP连接。
-
-**5）问：如何使用Ibeacon功能？**
+**4）问：如何使用Ibeacon功能？**
 
 答：不支持
 
-**6）问：Ble-Nano支持多联吗？我想用一个主机连接很多从机，请问最多能连几个？**
+**5）问：ble-nano支持多联吗？我想用一个主机连接很多从机，请问最多能连几个？**
 
-答：Ble-Nano不支持多联，但是可以通过不断地切换绑定从机，实现多联的思想。
+答：ble-nano暂时不支持多联，但是可以通过不断地切换绑定从机，实现多联的思想。
 
-**7) 问：为什么Ble-Nano系列的蓝牙4.0产品无法连接蓝牙2.0的设备？**
+**6)  问：为什么ble-nano系列的蓝牙4.0产品无法连接蓝牙2.0的设备？**
 
 答：由于我们的Ble-Nano系列为了实现极低的功耗，采用了单模蓝牙低功耗（Bluetooth Smart），硬件和软件上都做了优化，只能支持BLE，不支持连接蓝牙2.0设备。
