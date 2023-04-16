@@ -1,50 +1,66 @@
 # ble-nano介绍
 
-![top view](./image/ble-nano.png)
+
+
+
+
+<img src="./image/ble-nano_top_view.png" alt="top view" style="zoom: 150%;" />
+
+
+
+
+
+
 
 ## 什么是ble-nano
 
-​	ble-nano是基于低功耗蓝牙芯片结合经典的Arduino Nano V3.0主板，由emakefun针对创客而研发的一款创造性产品，功能和引脚，使用方法，完全兼容传统Arduino NanoV3.0主板，工作频段为2.4GHZ 范围，调制方式为 GFSK，  接收灵敏度-96dBm ,最大发射功率为 +5db，最大发射距离超过200米，采用RISC-V架构CH573芯片设计，支持用户通过AT命令修改查看设备名、服务UUID、发射功率、配对密码等指令，方便快捷使用灵活。产品身材非常小，适合于很多对于体积有苛刻限制的应用。
+​	ble-nanoo是emakefun公司基于官方标准Arduino Nano V3.0主板集成低功耗蓝牙芯片而开发一款2.4G无线开发板，它的功能和引脚，使用方法，完全兼容标准的Arduino Nano V3.0主板，工作频段为2.4GHZ 范围，调制方式为 GFSK， 接收灵敏度-96dBm ，最大发射功率为 +5db，最大发射距离超过200米，采用RISC-V架构CH573芯片设计，支持用户通过AT命令查看修改设备名、服务UUID、发射功率、配对密码等指令，方便快捷使用。产品身材非常小，适合于很多对于体积有苛刻限制的应用。
 
-​	提供Android和IOS手机demo，你可以借助Arduino应用生态，快速开发出一款与手机通信的硬件设备。正如现在非常火爆的可穿戴式手机周边设备，都可以用Ble-Nano这款平台开发，你可以使用ble-nano与BLE蓝牙设备连接，也可以两个ble-nano主从通信。同时我们为开发者提供了极大的自由度和支持准备，用户不仅可以通过AT指令调试ble-nano，你还可以在ble-nano控制器上添加Arduino兼容的扩展板、传感器、电机和舵机驱动等，emakefun独家研发蓝牙主机模式自动连接从机功能，并支持超过20个字节发送，使用更加方便。
+​	提供Android和IOS手机demo，你可以借助Arduino应用生态，快速开发出一款与手机通信的硬件设备。正如现在非常火爆的可穿戴式手机周边设备，都可以用Ble-Nano这款平台开发，你可以使用ble-nano与BLE蓝牙设备连接，也可以两个ble-nano主从通信。同时我们为开发者提供了极大的自由度和支持准备，用户不仅可以通过AT指令调试ble-nano，你还可以在ble-nano控制器上添加Arduino兼容的扩展板、传感器、电机和舵机驱动等，
 
- 软件方面支持ble-at软件框架
 ## 系统架构图
 
- kicad画一张工作时序图
+ kicad画一张工作框架图 
 
-## 产品参数 对比
+
+
+## 核心参数
+
+#### 低功耗蓝牙BLE参数
+
+* BLE芯片: RISC-V架构ch57xF芯片，一款高度兼容（TI CC2540蓝牙SOC）
+* 工作频道: 2.4G
+* 0dBm 发送功率时电流 6mA  
+* 接收灵敏度  -96dBm，可编程+5dBm 发送功率  。
+* 传输距离：空旷情况下，在0dB发送功率通讯距离约170m，在 3dBm 发送功率时约 240m 
+* 支持usb串口，arduino串口，蓝牙三种方式，AT指令配置，支持主从模式切换
+* 支持USB虚拟串口，硬件串口，BLE三向透传 
+* 主机模式下支持蓝牙自动连接从机
+#### 主控核心参数
+* 处理器: ATmega328P-MU QFN32
+* 数字IO引脚：22个(其中6个用作PWM输出)
+* 模拟输入引脚：8 (A0~A7) 
+* IO引脚直流电流：40mA 
+* 5V 引脚电流：VIN输入时500mA
+* 3.3V引脚电流 :  500mA
+* Flash内存：32KB(其中0.5KB用于引导加载程序) 
+* SRAM： 2KB
+* EEPROM： 1KB
+* USB转串口芯片： CH57xF芯片，兼容arduino官方uno驱动
+* 工作时钟：16 MHZ
+
+## 参数对比
 
 arduino nano , ble-nano3.0,  ble-nano4.2  ble-nano5.3 四款产品对比表格
 
-| 名字     | nano                           | ble-nano3.0                                      | ble-nano4.2                                      | ble-nano5.3                     |
-| -------- | ------------------------------ | ------------------------------------------------ | ------------------------------------------------ | ------------------------------- |
-| 图片     | ![](image/nano3.0.jpeg)        | ![](image/ble-nano3.0.png)                       |                                                  |                                 |
-| 主控芯片 | ATmega328P-AU(QFP32)           | ATmega328P-MU(QFN32)                             | ATmega328P-MU(QFN32)                             | ATmega328P-MU(QFN32)            |
-| BLE      | 无                             | TI CC2540蓝牙4.2<br />0dBm发射 距离50米 功耗24mA | WCH CH571F BLE4.2<br />0dBm距离150m  发射功耗6mA | WCH CH571F BLE5.3<br />距离300m |
-| 驱动     | CH340G下载芯片                 | CC2540驱动                                       | 兼容Arduio Uno驱动                               | 兼容Arduio Uno驱动              |
-| 参数     | PCB尺寸：45x18mm<br />双面焊接 | PCB尺寸：48x19mm<br />双面焊接                   | PCB尺寸：48x18mm<br />单面贴片                   | PCB尺寸：48x18mm<br />单面贴片  |
-| 接口     | Mini-Usb接口                   | Micro-Usb接口                                    | Type C                                           | Type C                          |
-
-
-
-### 核心参数
-
-* 与 Arduino Nano V3.0引脚和使用方法完全兼容  
-* BLE芯片: RISC-V架构ch57xF芯片，一款高度兼容（TI CC2540蓝牙SOC）
-* 工作频道 2.4G
-* 传输距离：空旷情况下，在0dB发送功率通讯距离约170m，在 3dBm 发送功率时约 240m 
-* 支持AT指令配置BLE
-* 支持USB虚拟串口，硬件串口,BLE三向透传 
-* 支持主从机切换
-* 主机模式下支持蓝牙自动连接从机
-* 支持超过20byte发送,   自动分包  。
-* 接口:TypeC
-* 输入电压：usb供电,Vin6~12V ，5V  
-* 微处理器： ATmega328P-MU QFN32  
-* 引脚：两排2.54mm-15Pin
-* 尺寸：48mm x 18mm x 12mm  
-* 重量：18g
+| 名字     | nano                           | ble-nano3.0                                      | ble-nano4.2                                                  | ble-nano5.3                                            |
+| -------- | ------------------------------ | ------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------ |
+| 图片     | ![](image/nano3.0.png)         | ![](image/ble-nano3.0.png)                       | <img src="./image/ble-nano_top_view.png"  style="zoom: 92%;" /> | <img src="./image/ble-nano.png"  style="zoom: 89%;" /> |
+| 主控芯片 | ATmega328P-AU(QFP32)           | ATmega328P-MU(QFN32)                             | ATmega328P-MU(QFN32)                                         | ATmega328P-MU(QFN32)                                   |
+| BLE      | 无                             | TI CC2540蓝牙4.2<br />0dBm发射 距离50米 功耗24mA | WCH CH571F BLE4.2<br />0dBm距离150m  发射功耗6mA             | BLE5.3<br />距离300m                                   |
+| 驱动     | CH340G下载芯片                 | CC2540驱动                                       | 兼容Arduio Uno驱动                                           | 兼容Arduio Uno驱动                                     |
+| 参数     | PCB尺寸：45x18mm<br />双面贴片 | PCB尺寸：49x19mm<br />双面贴片                   | PCB尺寸：48x18mm<br />单面贴片                               | PCB尺寸：48x18mm<br />单面贴片                         |
+| 接口     | Mini-Usb接口                   | Micro-Usb接口                                    | Type C                                                       | Type C                                                 |
 
 ### 引脚说明
 
@@ -52,7 +68,17 @@ arduino nano , ble-nano3.0,  ble-nano4.2  ble-nano5.3 四款产品对比表格
 
 ###  原理图
 
-###  机械尺寸标注图
+[原理图下载](schematic/ble-nano_v4.2.pdf)
+
+![ble-name_sch](./image/ble-name_sch.png)
+
+###  尺寸标注图
+
+
+
+###  ![ble-nano_dimensional_drawing](./image/ble-nano_dimensional_drawing.png)
+
+
 
 ###  指示灯说明
 
@@ -69,9 +95,9 @@ ble-nano的usb采用的是兼容Arduino的官方串口驱动，所以安装驱�
 ble-nano烧写的为最新Arduino Nano官方Bootloader所以需要使用IDE 1.8.8版本以上来烧写程序
 请前往 [Arduino官网](https://www.arduino.cc/en/Main/Software) 载最新IDE
 
-选择开发板类型为Arduino Nano 处理器为 ATmega328P
+选择开发板类型为Arduino Nano 处理器为 ATmega328P，如下图
 
-![ide](./image/ide-board.png)
+![ide](./image/ide_downloard.png)
 
 # ble-nano和电子设备连接
 
@@ -249,30 +275,29 @@ AT指令还可以通过直连TypeC数据线直连控制和APP的为0xFFE2的char
 |---- | ----| ----| ---- |---- |
 |1 | AT | 测试 | M/S | |
 |2 | AT+ALL	| 打印ble-nano所有的配置信息 | M/S |	|
-|3 | AT+RESET	| 软件复位ble-nano | M/S |	|
-|6 | AT+VER	| 查看ble-nano固件版本号 | M/S |  |
-|2 | AT+BAUD | 配置串口波特率	 | M/S	| 115200 |
-|5 |AT+NAME |	查看配置蓝牙广播名字	|	ble-nano ||
-|7 |	AT+MAC	| 查看设置蓝牙12位mac地址	| M/S |  |
-|14 |	AT+AUTH	| 设置蓝牙连接是否需要鉴权	| S | 0 |
-|15 |	AT+PASS	| 设置蓝牙连接密码	| S | 123456 |
-|8 |	AT+ROLE |	配置主从模式 |	M/S	 | 1 |
-|9 |	AT+SCAN |	扫描周边的蓝牙设备 |	M |  |
-|10 |	AT+CONN	 |连接扫描结果对应下标的蓝牙设备	 |M |  |
-|11 |	AT+CON |	连接对应mac地址的蓝牙设备 |	M |  |
-|12 |	AT+CONNAME |	连接对应广播名字的蓝牙设备 |	M | |
-|1 |	AT+AUTOCON |	自动连接上次成功连接的从机设备，重启生效 |	M | 0 |
-|13 |	AT+DISCON |	断开当前的链接 | M |  |
-|16 |	AT+MODE |	设置蓝牙工作模式 |	M/S |	0 |
-|17 |	AT+BLEUSB | 设置蓝牙的USB和蓝牙数据传输模式 |	M/S | 0 |
-|18 |	AT+TXPOWER	 | 设置蓝牙发射功率 | M/S |	0 |
-|19	| AT+MINI_INTERVAL |	设置ble-nano最小通信间隔 |	M/S	 | 6 |
-|20	| AT+MAX_INTERVAL |	设置ble-nano最大通信间隔 |	M/S	 | 6  |
-|21 |	AT+SRVUUID |	设置获取蓝牙特征码SRVUUID |	M/S	 | 0xFFE0 |
-|22 |	AT+CHARUUID |	设置获取字符特征码CHARUUID |	M/S |	0xFFE1 |
-|23 |	AT+RXGAIN |	设置ble-nano接收增益 |	M/S	 | 1 |
-|25 |	AT+SETTING |	恢复出厂系统设置 |	M/S |  |
-| 26 |	AT+SLEEP |	设置睡眠模式 |	M/S | |
+|3 | AT+RESET	| 软件复位BLE蓝牙芯片 | M/S |	|
+|4 | AT+RESET_TARGE	| 复位Arduino(Atmega328P芯片) | M/S |	|
+|5 | AT+VER	| 查看ble-nano固件版本号 | M/S |  |
+|6 | AT+BAUD | 配置串口波特率	 | M/S	| 115200 |
+|7 |AT+NAME |	查看配置蓝牙广播名字	|	ble-nano ||
+|8 |	AT+MAC	| 查看设置蓝牙12位mac地址	| M/S |  |
+|9 |	AT+AUTH	| 设置蓝牙连接是否需要鉴权	| S | 0 |
+|10 |	AT+PASS	| 设置蓝牙连接密码	| S | 123456 |
+|11 |	AT+ROLE |	配置主从模式 |	M/S	 | 1 |
+|12 |	AT+SCAN |	扫描周边的蓝牙设备 |	M |  |
+|13 |	AT+CONN	 |连接扫描结果对应下标的蓝牙设备	 |M |  |
+|14 |	AT+CON |	连接对应mac地址的蓝牙设备 |	M |  |
+|15 |	AT+AUTOCON |	自动绑定连接上次成功连接的从机设备，重启生效 |	M | 0 |
+|16 |	AT+DISCON |	断开当前的连接 | M |  |
+|17 |	AT+MODE |	设置蓝牙工作模式 |	M/S |	0 |
+|18 |	AT+BLEUSB | 设置蓝牙的USB和蓝牙数据传输模式 |	M/S | 0 |
+|19 |	AT+TXPOWER	 | 设置蓝牙发射功率 | M/S |	0 |
+|20	| AT+MINI_INTERVAL |	设置ble-nano最小通信间隔 |	M/S	 | 6 |
+|21	| AT+MAX_INTERVAL |	设置ble-nano最大通信间隔 |	M/S	 | 6  |
+|22 |	AT+SERVUUID |	获取蓝牙特征码SERVUUID |	M/S	 | 0xFFE0 |
+|22 |	AT+CHARUUID |	获取字符特征码CHARUUID |	M/S |	0xFFE1 |
+|23 |	AT+SETTING |	恢复出厂系统设置,带参数 |	M/S |  |
+| 24 |	AT+SLEEP（暂未实现） |	设置睡眠模式 |	M/S |  |
 
 ## AT指令集详细说明
 
@@ -352,7 +377,7 @@ AT+CON=464288AEAB8F 直接连接Mac地址为464288AEAB8F的设备
 
 | 指令 | 响应 | 参数 |
 |---- | ----| ----|
-| AT+BOND=<  Param  > | OK+AutoCon=<  Param  >+SUCCESS  |  0:关闭自动连接 <br> 1:开机自动连接  |
+| AT+AUTOCON=<  Param  > | OK+AUTOCON=<  Param  >+SUCCESS |  0:关闭自动连接 <br>1:开机自动连接  |
 
 14、	断开当前连接蓝牙设备
 
@@ -408,13 +433,14 @@ AT+CON=464288AEAB8F 直接连接Mac地址为464288AEAB8F的设备
 |---- | ----| ----|
 |AT+RXGAIN=< Param > |	OK+RxGain =< Param >+SUCCESS |	0：标准增益 <br>1：高增益 |
 
-23、设置BLE特征码UUID
+23、获取BLE特征码UUID
 
 | 指令 | 响应 | 参数 |
 |---- | ----| ----|
 |AT+SRVUUID	 |Servic UUID=0XFFE0 |  |
 
-24、设置BLE字符特征码
+24、获取BLE字符特征码
+
 | 指令 | 响应 | 参数 |
 |---- | ----| ----|
 |AT+CHARUUID |	Char UUID=0XFFE1 |  |
@@ -429,7 +455,7 @@ AT+CON=464288AEAB8F 直接连接Mac地址为464288AEAB8F的设备
 
 | 指令 | 响应 | 参数 |
 |---- | ----| ----|
-|AT+SETTING=< Param >  | +SUCCESS | DEFAULT恢复出厂设置 <br> PARI_DEFAULT清除配对信息 |
+|AT+SETTING=< Param >  | +SUCCESS | DEFAULT恢复出厂设置 <br> PARI_DEFAULT清除配对信息，密码信息 |
 
 ## 开发说明
 
@@ -479,9 +505,9 @@ Step5. AT+CON加从机（COM21)mac地址即可直接连接
 
 ## 常见问题
 
-**1)	问Ble-Nano和普通Nano板有何区别，我要如何开始使用这个开发板**
+**1)	问：Ble-Nano和普通Nano板有何区别，我要如何开始使用这个开发板**
 
-答： Ble-Uno是在原来官方arduino uno r3基础上添加CC2540蓝牙4.0功能
+答： ble-nano是在原来官方arduino uno r3基础上添加CC2540蓝牙4.0功能
 接口Mini-Usb升级成更加通用Micro-Usb接口，引脚功能完全兼容
 Bootload烧写最新bootload需要使用1.8.8以上IDE才可以烧写，其他使用方法请参考官方arduino nano使用方法。
 
@@ -495,7 +521,7 @@ Bootload烧写最新bootload需要使用1.8.8以上IDE才可以烧写，其他�
 1 更新固件至最新版本；
 2 通过AT指令恢复出厂设置 (AT+SETTING=DEFAULT). （详见:通过AT指令配置BLE设备 ）
 3 检查蓝牙模块、程序代码等相关地方的通信波特率是否一致；（晶振频率为8MHz的控制板支持最大38400bps的波特率。）
-4.配对蓝牙设备是否支持4.0，还有CC2540和其他品牌蓝牙模组会存在兼容性问题，使用尽可能和CC25xx系类蓝牙模块连接
+4.配对蓝牙设备是否支持4.2，不同品牌之间的蓝牙SOC连接之间有可能有兼容性问题，建议使用ble-nano/ble-uno之间进行连接通信
 
 **4） 问：为什么我的手机连不上Ble-Nano，即使可以连上，但也不能通信？**
 
