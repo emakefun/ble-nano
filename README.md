@@ -1,4 +1,4 @@
-# Please Contact Us
+# [中文版资料](./README_ZH.md)
 Email: ken@emakefun.com</br>
 The latest information download address:https://github.com/emakefun/ble-nano  </br>
 
