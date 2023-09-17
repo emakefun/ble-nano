@@ -18,7 +18,7 @@
 
 ​	ble-nano是emakefun公司基于官方标准Arduino Nano V3.0主板上集成低功耗蓝牙芯片而开发一款具备无线蓝牙功能的开发板，它的功能和引脚，使用方法，完全兼容标准的Arduino Nano V3.0主板，工作频段为2.4GHZ 范围，调制方式为 GFSK， 接收灵敏度-96dBm，最大发射功率为+5db，最大发射距离超过200米，采用RISC-V架构CH573芯片设计，支持用户通过AT命令查看修改设备名、服务UUID、发射功率、配对密码等指令，方便快捷使用。产品身材非常小，适合于很多对于体积有苛刻限制的应用。
 
-​	提供Android和IOS手机demo，你可以借助Arduino应用生态，快速开发出一款与手机通信的硬件设备。正如现在非常火爆的可穿戴式手机周边设备，都可以用ble-nano这款平台开发，你可以使用ble-nano与BLE蓝牙设备连接，也可以两个ble-nano主从通信。同时我们为开发者提供了极大的自由度和支持准备，用户不仅可以通过AT指令调试ble-nano，你还可以在ble-nano控制器上添加Arduino兼容的扩展板、传感器、电机和舵机驱动等，
+​	提供Android和IOS手机demo，你可以借助Arduino应用生态，快速开发出一款与手机通信的硬件设备。正如现在非常火爆的可穿戴式手机周边设备，都可以用ble-nano这款硬件开发，你可以使用ble-nano与BLE蓝牙设备连接，也可以两个ble-nano主从通信。同时我们为开发者提供了极大的自由度和支持准备，用户不仅可以通过AT指令调试ble-nano，你还可以在ble-nano控制器上添加Arduino兼容的扩展板、传感器、电机和舵机驱动等，
 
 ## 系统架构图
 
@@ -84,13 +84,13 @@ arduino nano , ble-nano3.0,  ble-nano4.2  ble-nano5.3 四款产品对比表格
 
 ###  指示灯说明
 
-* B:  蓝牙连接状态指示灯-当蓝牙未链接时，1s间隔闪烁，当蓝牙连接上后常亮；蓝牙接收或者发送数据时，会快闪
+* B:  蓝牙连接状态指示灯-当蓝牙未连接时，1s间隔闪烁，当蓝牙连接上后常亮；蓝牙接收或者发送数据时，会快闪
 * RX TX: 串口收据收发指示灯
 * L 为 arduino的13引脚blink灯
 
 # ble-nano驱动安装
 
-ble-nano的usb采用的是兼容Arduino的官方串口驱动，所以安装驱动的方法和官方Arduino Uno驱动是一致的.
+ble-nano的usb驱动是兼容Arduino Uno的官方串口驱动，所以安装驱动的方法和官方Arduino Uno驱动是一样的.
 
 ## ble-nano通过Arduion IDE上传程序
 
@@ -105,7 +105,7 @@ ble-nano烧写的为最新Arduino Nano官方Bootloader所以需要使用IDE 1.8.
 
 ## ble-nano和安卓手机连接
 
-1)	打开ble控制程序[ble_control_led.ino](./example/ble_contorl_led/ble_contorl_led.ino)主板上Link（引脚13）上的LED灯程序
+1、打开ble控制程序[ble_control_led.ino](./example/ble_contorl_led/ble_contorl_led.ino)主板上Link（引脚13）上的LED灯程序
 
 ```c
 String ble_data;
@@ -135,13 +135,13 @@ void loop() {
 }
 ```
 
-2)	安卓或则IOS从设置中是无法连接使用的，因为手机设置都是只能连接经典蓝牙兼容蓝牙耳机，蓝牙麦克风等外设，不能连接低功耗蓝牙。安卓手机（android4.2系统版本以上）安装[BleToolsTest](https://github.com/nulllaborg/BleTools/raw/master/NulllabBlutooth/app/release/BleToolsTest.apk) 可以参考开源[Android源代码](https://github.com/nulllaborg/BleTools)  (注意需要打开蓝牙，和定位权限)如下图操作）
+2、安卓或苹果手机系统设置中是无法连接使用的，因为手机设置都是只能连接经典蓝牙兼容蓝牙耳机，蓝牙麦克风等外设，不能连接低功耗蓝牙。安卓手机（安卓4.2系统版本以上）安装[BleToolsTest](https://github.com/nulllaborg/BleTools/raw/master/NulllabBlutooth/app/release/BleToolsTest.apk) 可以参考开源[Android源代码](https://github.com/nulllaborg/BleTools)  (注意需要打开蓝牙，和定位权限)如下图操作）
 
 | 打开手机定位                                                 | 允许BLE测试工具定位权限                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | <img src="./image/location_permissions1.png" alt="location_permissions1" style="zoom: 33%;" /> | <img src="./image/location_permissions2.png" alt="location_permissions2" style="zoom: 33%;" /> |
 
-3）打开测试APP,界面。找到对应的蓝牙名（ble-nano4.2/ble-nano5.3）并点击进行连接，此时会出现4个选项，分别用于测试不同的功能，因为这里我们只测试蓝牙是否可以正常收发数据，所以我们选择SK Service入，再选择SK_KEYPRESSED
+3、打开测试APP,界面。找到对应的蓝牙名（ble-nano4.2/ble-nano5.3）并点击进行连接，此时会出现4个选项，分别用于测试不同的功能，因为这里我们只测试蓝牙是否可以正常收发数据，所以我们选择SK Service入，再选择SK_KEYPRESSED
 
 
 
@@ -149,7 +149,7 @@ void loop() {
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | <img src="./image/android_app_test1.jpg" alt="location_permissions1" style="zoom: 33%;" /> | <img src="./image/android_app_test2.jpg" alt="location_permissions1" style="zoom: 33%;" /> | <img src="./image/android_app_test1-1.jpg" alt="location_permissions1" style="zoom: 33%;" /> |
 
-4)	我们选择“SK-KEYPRESSED”,点击后如图3.1.9我们可以看到有一个“写入”按键，点击即可进入，我们点击“红色框”即可输入想发送的数据，输入完成后点击“发送”即可将数据发出去
+4、我们选择“SK-KEYPRESSED”,点击后如图3.1.9我们可以看到有一个“写入”按键，点击即可进入，我们点击“红色框”即可输入想发送的数据，输入完成后点击“发送”即可将数据发出去
 
 
 
@@ -157,30 +157,30 @@ void loop() {
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | <img src="./image/android_app_test3.jpg" alt="location_permissions1" style="zoom: 33%;" /> | <img src="./image/android_app_test4.jpg" alt="location_permissions1" style="zoom: 33%;" /> |
 
-5)	点击发送字符串"on"后，打开ArduinoIDE的串口监视器上打印 turn on led，同时观察ble-nano上的L灯点亮，代表app蓝牙控制主板上的L灯成功，同样的方法发送字符串“off”后，ble-nano上的L灯会熄灭。到此我们安卓手机蓝牙测试完成。
+5、点击发送字符串"on"后，打开ArduinoIDE的串口监视器上打印 turn on led，同时观察ble-nano上的L灯点亮，代表app蓝牙控制主板上的L灯成功，同样的方法发送字符串“off”后，ble-nano上的L灯会熄灭。到此我们安卓手机蓝牙测试完成。
 
 
 ## ble-nano和苹果手机/电脑/平板连接
 
-1)	在APP store 中搜索LightBlue,下载软件LightBlue RExplorer，并打开。
+1、在APP store 中搜索LightBlue,下载软件LightBlue RExplorer，并打开。
 
 |                                                              |                                                              |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | <img src="./image/ios_app_test1.png" alt="location_permissions1"  /> | <img src="./image/ios_app_test2.png" alt="location_permissions1"  /> |
 
-2)	安装APP后，打开APP扫描到ble-nano,并连接
+2、安装APP后，打开APP扫描到ble-nano,并连接
 
 |                                                              |                                                              |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | <img src="./image/ios_app_test3.jpg" alt="location_permissions1" style="zoom:33%;" /> | <img src="./image/ios_app_test4.jpg" alt="location_permissions1" style="zoom:33%;" /> |
 
-4)	选择字符类型，并点击Write  new value，输入字符即可给ble-nano发送数据。
+3、选择字符类型，并点击Write  new value，输入字符即可给ble-nano发送数据。
 
 |                                                              |                                                              |                                                              |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | <img src="./image/ios_app_test5.jpg" alt="location_permissions1" style="zoom:33%;" /> | <img src="./image/ios_app_test6.jpg" alt="location_permissions1" style="zoom:33%;" /> | <img src="./image/ios_app_test7.jpg" alt="location_permissions1" style="zoom:33%;" /> |
 
-5) 点击done后会发送字符串"on"后，打开ArduinoIDE的串口监视器上打印 turn on led，同时观察ble-nano上的L灯点亮，代表app蓝牙控制主板上的L灯成功，同样的方法发送字符串“off”后，ble-nano上的L灯会熄灭。到此我们IOS蓝牙测试完成。
+4、点击done后会发送字符串"on"后，打开ArduinoIDE的串口监视器上打印 turn on led，同时观察ble-nano上的L灯点亮，代表app蓝牙控制主板上的L灯成功，同样的方法发送字符串“off”后，ble-nano上的L灯会熄灭。到此我们IOS蓝牙测试完成。
 
 
 ## ble-nano和win10蓝牙连接
@@ -201,7 +201,7 @@ void loop() {
 
 ble-nano的AT指令可通过Arduino自带的硬件串口0（RX)、1 (TX）控制，波特率支持9600、19200、38400、57600、115200。ble-nano串口默认波特率为115200bps。
 
-AT指令还可以通过直连TypeC数据线直连控制和APP的为0xFFE2的characteristics来控制。
+AT指令还可以通过直连TypeC数据线直连控制或者APP里面为0xFFE2的characteristics来控制。
 
 （注：发AT指令时必须回车换行， AT指令只能在模块未连接状态下才能生效，一旦蓝牙模块与设备连接上，蓝牙模块即进入数据透传模式。AT指令区分大小写，均以回车换行字符结尾：\r\n））
 
@@ -281,7 +281,7 @@ AT指令还可以通过直连TypeC数据线直连控制和APP的为0xFFE2的char
 
 | 指令 | 响应 | 参数 |
 |---- | ----| ----|
-|AT+MAC |	+MAC=< Result ><br />OK	| 无 |
+|AT+MAC=< Param> |	+MAC=< Result ><br />OK	| 无 |
 
 9、查询设置蓝牙主从模式
 
@@ -342,19 +342,19 @@ AT+CON=d0:44:7a:9e:e4:e4直接连接Mac地址为d0:44:7a:9e:e4:e4的设备
 
 | 指令 | 响应 | 参数 |
 |---- | ----| ----|
-|AT+ PASS=< Param > |	+PASS=< Param ><br />OK |  |
+|AT+PASS=< Param > |	+PASS=< Param ><br />OK |  |
 
 17、设置蓝牙的工作模式
 
 | 指令 | 响应 | 参数 |
 |---- | ----| ----|
-|AT+ MODE=< Param > |	+MODE=< Param ><br />OK | 0:透传<br>1:驱动模式<br>2:iBeacon |
+|AT+MODE=< Param > |	+MODE=< Param ><br />OK | 0:透传<br>1:驱动模式<br>2:iBeacon |
 
 18、设置蓝牙的USB和蓝牙数据传输模式
 
 | 指令 | 响应 | 参数 |
 |---- | ----| ----|
-|AT+ BLEUSB=< Param > | +BLEUSB=< Param ><br />OK |	0:关闭<br>1:USB串口数据传给BLE<br>2:BLE数据传给USB串口<br>3:USB串口数据和BLE透传 |
+|AT+BLEUSB=< Param > | +BLEUSB=< Param ><br />OK |	0:关闭<br>1:USB串口数据传给BLE<br>2:BLE数据传给USB串口<br>3:USB串口数据和BLE透传 |
 
 19、设置蓝牙的发射功率
 
@@ -388,15 +388,15 @@ AT+CON=d0:44:7a:9e:e4:e4直接连接Mac地址为d0:44:7a:9e:e4:e4的设备
 
 ## 开发说明
 
-因为产品的蓝牙是透传功能，所以蓝牙编程，其实就是对arduino的串口(Serial)进行读写操作我们编程时需要注意两点
-1、BLE协议规定每个蓝牙数据包长度不能超过20byte，我们蓝牙模块做了分包发送，但是有低概率丢包，所以超过20个字节的时候，arudino分包发送最为可靠。
-2、每一包数据发送间隔需要超过150ms，否则容易丢包。
+ble-nano最核心的功能就是蓝牙转串口透传功能，所以所谓Arduino蓝牙编程，其实就是对arduino的串口(Serial)进行读写操作我们编程时需要注意两点
+1、BLE协议规定每个蓝牙数据包长度不能超过20byte，所以超过20个字节的时候，arudino分包发送最为可靠。
+2、每一包数据发送间隔需要超过10ms，否则容易丢包。
 
 ## AT指令测试
 
 ble-nano支持三种AT指令配置方式：
 
-1)	通过usb串口直接发送AT指令，打开Arduino IDE的串口工具
+1、通过usb串口直接发送AT指令，打开Arduino IDE的串口工具
 
 串口波特率为115200，选择回车换行（NL和NR）作为结束符。
 
@@ -404,7 +404,7 @@ ble-nano支持三种AT指令配置方式：
 
 
 
-2）代码中如何使用AT指令
+2、代码中如何使用AT指令
 
 Arduino的硬件串口（RX0, TX1）直连了蓝牙的串口模块，所以我们可以通过Arduino的硬件串口直接发送AT指令
 
@@ -420,6 +420,7 @@ void setup() {
   Serial.println("AT+ROLE=0");  // 设置蓝牙为主机
   delay(10);  // AT指令设置后需要延时10ms
   Serial.println("AT+CON=83:46:8c:e4:c2:84");  //连接mac地址的蓝牙从机
+  delay(100);  // 等待连接成功
 }
 
 void loop() {
@@ -440,7 +441,7 @@ void loop() {
 }
 ```
 
-3)  手机App配置AT指令步骤
+3、手机App配置AT指令步骤
 
 | 选择AT命令的characterisitics                       | 点击开始通知                                       | 勾选增加新行                                       |
 | -------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------- |
@@ -509,7 +510,7 @@ void loop() {
 }
 ```
 
-2)  从机程序如下[slave](./example/ble-nano_communication/slave/slave.ino)
+从机程序如下[slave](./example/ble-nano_communication/slave/slave.ino)
 
 ```c
 String ble_data;
@@ -548,7 +549,7 @@ void loop() {
 
 **1)	问：ble-nano和其他普通nano板有何区别，我要如何开始使用这个开发板**
 
-答： ble-nano是在原来官方arduino nano v3.0的基础上将ch340G串口芯片更换成带usb接口的蓝牙芯片。它的驱动兼容arduino官方驱动，接口由Mini-Usb升级成Type-C接口，引脚和功能完全兼容普通NanoV3.0。如果没有用到蓝牙功能，那么使用方法可以直接参考Arduino Nano使用，要使用蓝牙请看说明书。
+答： ble-nano是在原来官方arduino nano v3.0的基础上将ch340G串口芯片更换成带usb接口的蓝牙芯片。它的驱动兼容arduino官方驱动，接口由Mini-Usb升级成Type-C接口，引脚和功能完全兼容普通NanoV3.0。如果没有用到蓝牙功能，那么使用方法完全和arduino nano V3.0一样，要使用蓝牙请看前面详细介绍。
 
 **2)	问：蓝牙如何手机电脑连接**
 答： ble-nano为低功耗蓝牙设备，不能直接在手机设置里面蓝牙连接，需要通过Android手机的话BLETestTools.apk (IOS LightBlue)连接，如要开发参考源代码二次开发，windows的设置里面也是经典蓝牙连接方式，需要微软官网参考BLE SDK开发。
