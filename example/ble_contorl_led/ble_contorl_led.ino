@@ -3,8 +3,10 @@ int led_pin = 13;
 
 void setup(){
   Serial.begin(115200);
+  Serial.println("ble control led");
   ble_data = "";
   pinMode(led_pin, OUTPUT);
+  digitalWrite(led_pin, HIGH);
 }
 
 void loop(){

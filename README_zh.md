@@ -18,7 +18,7 @@
 
 ​	ble-nano是emakefun公司基于官方标准Arduino Nano V3.0主板上集成低功耗蓝牙芯片而开发一款具备无线蓝牙功能的开发板，它的功能和引脚，使用方法，完全兼容标准的Arduino Nano V3.0主板，工作频段为2.4GHZ 范围，调制方式为 GFSK， 接收灵敏度-96dBm，最大发射功率为+5db，最大发射距离超过200米，采用RISC-V架构CH573芯片设计，支持用户通过AT命令查看修改设备名、服务UUID、发射功率、配对密码等指令，方便快捷使用。产品身材非常小，适合于很多对于体积有苛刻限制的应用。
 
-​	提供Android和IOS手机demo，你可以借助Arduino应用生态，快速开发出一款与手机通信的硬件设备。正如现在非常火爆的可穿戴式手机周边设备，都可以用ble-nano这款硬件开发，你可以使用ble-nano与BLE蓝牙设备连接，也可以两个ble-nano主从通信。同时我们为开发者提供了极大的自由度和支持准备，用户不仅可以通过AT指令调试ble-nano，你还可以在ble-nano控制器上添加Arduino兼容的扩展板、传感器、电机和舵机驱动等，
+​	提供Android和IOS手机demo，你可以借助Arduino应用生态，快速开发出一款与手机通信的硬件设备。正如现在非常火爆的可穿戴式手机周边设备，都可以用ble-nano这款硬件开发，你可以使用ble-nano与BLE蓝牙设备连接，也可以两个ble-nano主从通信。同时我们为开发者提供了极大的自由度和支持准备，用户不仅可以通过AT指令调试ble-nano，你还可以在ble-nano控制器上添加Arduino兼容的扩展板、传感器、电机和舵机驱动等，当然最大的亮点是你可以通过手机蓝牙直接给ble-nano下载程序。
 
 ## 系统架构图
 
@@ -38,7 +38,7 @@
 * 支持usb串口，arduino串口，蓝牙三种方式，AT指令配置，支持主从模式切换
 * 支持USB虚拟串口，硬件串口，BLE三向透传 
 * 主机模式下支持蓝牙自动连接从机
-* 蓝牙单次数据发送量最大为64Byte
+* 蓝牙MTU为67，单次数据发送量最大为64Byte
 
 #### 主控核心参数
 * 处理器: ATmega328P-MU QFN32
@@ -102,6 +102,10 @@ ble-nano烧写的为最新Arduino Nano官方Bootloader所以需要使用IDE 1.8.
 选择开发板类型为Arduino Nano 处理器为 ATmega328P，如下图
 
 ![ide](./image/ide_downloard.png)
+
+## ble-nano支持手机apk蓝牙下载程序
+
+[**手机上传程序**](https://github.com/nulllab-org/arduino_ble_flash_demo)
 
 # ble-nano和电子设备连接
 
@@ -391,14 +395,14 @@ AT+CON=d0:44:7a:9e:e4:e4直接连接Mac地址为d0:44:7a:9e:e4:e4的设备
 ## 开发说明
 
 ble-nano最核心的功能就是蓝牙转串口透传功能，所以所谓Arduino蓝牙编程，其实就是对arduino的串口(Serial)进行读写操作我们编程时需要注意两点
-1、ble-nano的MTU为67即单包蓝牙数据最带为64Byte，所以超过60个字节的时候，arudino发送时需要分包发送。
+1、ble-nano的MTU为67即单包蓝牙数据最带为64Byte，所以超过64个字节的时候，arudino发送时需要分包发送。
 
-2、单次发送数据为20Byte时，发送间隔需要超过10ms，否则会丢包。
-单次发送数据为64Byte时，发送间隔需要超过50ms，否则会丢包。
+2、单次发送数据为64Byte时，发送间隔需要超过50ms，否则会丢包。
+
 ```c
- auto data = "123456789abcdefghjk\n";
-  Serial.write(data.c_str(), 20);
-  delay(10);  //必须要延时 10ms以上
+auto data = "123456789abcdefghjk\n";
+Serial.write(data.c_str(), 20);
+delay(10);  //必须要延时 10ms以上
 ```
 ## AT指令测试
 
@@ -426,7 +430,7 @@ void setup() {
   Serial.begin(115200);
   pinMode(led_pin, OUTPUT);
   Serial.println("AT+ROLE=0");  // 设置蓝牙为主机
-  delay(10);  // AT指令设置后需要延时10ms
+  delay(50);  // AT指令设置后需要延时50ms
   Serial.println("AT+CON=83:46:8c:e4:c2:84");  //连接mac地址的蓝牙从机
   delay(100);  // 等待连接成功
 }
@@ -483,11 +487,11 @@ void setup() {
   Serial.begin(115200);
   pinMode(led_pin, OUTPUT);
   Serial.println("AT+ROLE=0");  // 设置蓝牙为主机
-  delay(10);
+  delay(50);
   Serial.println("AT+BLEUSB=0");  // 设置数据通信模式为0
-  delay(10);
+  delay(50);
   Serial.println("AT+CON=83:46:8c:e4:c2:84");  //连接mac地址的蓝牙从机
-  //delay(10);
+  //delay(50);
   ble_data = "";
   while (Serial.available() > 0)  
   {
@@ -528,7 +532,7 @@ void setup() {
   Serial.begin(115200);
   pinMode(led_pin, OUTPUT);
   Serial.println("AT+ROLE=1");  // 设置蓝牙为主机
-  delay(10);
+  delay(50);
   Serial.println("AT+BLEUSB=0");  //设置数据通信模式为0
   //delay(10);
 }
@@ -577,6 +581,10 @@ void loop() {
 **6)  问：为什么ble-nano系列的蓝牙4.2产品无法连接蓝牙2.0的设备？**
 
 答：由于我们的ble-nano系列为了实现极低的功耗，采用了单模蓝牙低功耗（Bluetooth Smart），硬件和软件上都做了优化，只能支持BLE，不支持连接蓝牙2.0设备。
+
+**7) 问：为什么ble-nano是否支持手机编程？**
+
+答：支持手机端编程，但需要手机这边参考https://github.com/nulllab-org/arduino_ble_flash_demo二次开发。
 
 ## 联系我们
 

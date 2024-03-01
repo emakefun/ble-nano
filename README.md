@@ -22,7 +22,7 @@ The BLE-Nano operates in the 2.4GHz frequency range and uses GFSK modulation. It
 
 It supports users to view and modify device names, service UUIDs, transmission power, pairing passwords, and other instructions through AT commands, making it convenient and fast to use. The product is very small in size, making it suitable for applications with strict size requirements.
 
-​	Providing Android and IOS mobile demo，You can quickly develop a hardware device that communicates with Android and iOS smartphones by leveraging the Arduino application ecosystem. Just like the popular wearable smartphone peripherals, you can use the BLE-Nano platform for development. With BLE-Nano, you can connect to BLE Bluetooth devices and enable communication between two BLE-Nano boards. We also provide developers with great flexibility and support, allowing you to debug the BLE-Nano using AT commands. Additionally, you can add Arduino-compatible expansion boards, sensors, motor drivers, and servo drivers to the BLE-Nano controller, offering even more possibilities for your projects.
+​	Providing Android and IOS mobile demo，You can quickly develop a hardware device that communicates with Android and iOS smartphones by leveraging the Arduino application ecosystem. Just like the popular wearable smartphone peripherals, you can use the BLE-Nano platform for development. With BLE-Nano, you can connect to BLE Bluetooth devices and enable communication between two BLE-Nano boards. We also provide developers with great flexibility and support, allowing you to debug the BLE-Nano using AT commands. Additionally, you can add Arduino-compatible expansion boards, sensors, motor drivers, and servo drivers to the BLE-Nano controller, offering even more possibilities for your projects.Support mobile phone download program
 
 ## System architecture diagram
 
@@ -42,6 +42,8 @@ It supports users to view and modify device names, service UUIDs, transmission p
 * The device supports three types of communication interfaces: USB serial, Arduino serial, and Bluetooth. It can be configured using AT commands, and it also supports switching between master and slave modes.
 * The device supports USB virtual serial port, hardware serial port, and BLE three-way transparent transmission. 
 * In host mode, the device supports automatic Bluetooth connection to a slave device.
+* MTU:67
+* Support mobile phone download program
 #### Main control core parameters
 * Processor: ATmega328P-MU QFN32
 * Digital IO pins: 22 (6 of them used as PWM output).
@@ -106,6 +108,10 @@ Please go to the [Arduino官网](https://www.arduino.cc/en/Main/Software) to dow
 To select the board type as Arduino Nano with the processor ATmega328P, like below:
 
 ![ide](./image/ide_downloard.png)
+
+Mobile Phone support download programming
+
+[**Mobile Phone Download Link**](https://github.com/nulllab-org/arduino_ble_flash_demo)
 
 # ble-nano connects to electronic devices
 
