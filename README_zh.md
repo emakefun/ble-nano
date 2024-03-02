@@ -229,12 +229,11 @@ AT指令还可以通过直连TypeC数据线直连控制或者APP里面为0xFFE2�
 |14 |	AT+CON |	连接对应mac地址的蓝牙设备 |	M |  |
 |15 |	AT+AUTOCON |	自动绑定连接上次成功连接的从机设备，重启生效 |	M | 0 |
 |16 |	AT+DISCON |	断开当前的连接 | M |  |
-|17 |	AT+MODE |	设置蓝牙工作模式 |	M/S |	0 |
-|18 |	AT+BLEUSB | 设置蓝牙的USB和蓝牙数据传输模式 |	M/S | 0 |
-|19 |	AT+TXPOWER	 | 设置蓝牙发射功率 | M/S |	0 |
-|20	| AT+MINI_INTERVAL |	设置ble-nano最小通信间隔 |	M/S	 | 6 |
-|21	| AT+MAX_INTERVAL |	设置ble-nano最大通信间隔 |	M/S	 | 6  |
-|22 |	AT+SERVUUID |	获取蓝牙特征码SERVUUID |	M/S	 | 0xFFE0 |
+|17 |	AT+BLEUSB | 设置蓝牙的USB和蓝牙数据传输模式 |	M/S | 0 |
+|18 |	AT+TXPOWER	 | 设置蓝牙发射功率 | M/S |	0 |
+|19	| AT+MINI_INTERVAL |	设置ble-nano最小通信间隔 |	M/S	 | 6 |
+|20	| AT+MAX_INTERVAL |	设置ble-nano最大通信间隔 |	M/S	 | 6  |
+|21 |	AT+SERVUUID |	获取蓝牙特征码SERVUUID |	M/S	 | 0xFFE0 |
 |22 |	AT+CHARUUID |	获取字符特征码CHARUUID |	M/S |	0xFFE1 |
 |23 |	AT+SETTING |	恢复出厂系统设置,带参数 |	M/S |  |
 | 24 |	AT+SLEEP（暂未实现） |	设置睡眠模式 |	M/S |  |
@@ -289,25 +288,37 @@ AT指令还可以通过直连TypeC数据线直连控制或者APP里面为0xFFE2�
 |---- | ----| ----|
 |AT+MAC=< Param> |	+MAC=< Result ><br />OK	| 无 |
 
-9、查询设置蓝牙主从模式
+9、设置蓝牙连接是否需要密码
+
+| 指令             | 响应                     | 参数               |
+| ---------------- | ------------------------ | ------------------ |
+| AT+AUTH=< Param> | +AUTH=< Result ><br />OK | 0:不要<br />1:需要 |
+
+10、查询或者设置蓝牙的连接密码
+
+| 指令             | 响应                     | 参数          |
+| ---------------- | ------------------------ | ------------- |
+| AT+PASS=< Param> | +PASS=< Result ><br />OK | 6位阿拉伯数字 |
+
+11、查询设置蓝牙主从模式
 
 | 指令 | 响应 | 参数 |
 |---- | ----| ----|
 |AT+ROLE=< Param > |	+ROLE=< Param ><br />OK | 0:主机 <br> 1:从机 |
 
-10、蓝牙主机模式下扫描附近从机
+12、蓝牙主机模式下扫描附近从机
 
 | 指令 | 响应 | 参数 |
 |---- | ----| ----|
 | AT+SCAN |	+SCAN <br> OK<br />mac[1]:xxxx <br>mac[2]:xxxx <br/> …… <br> |	无 |
 
-11、通过扫描返回下标连接从机蓝牙
+13、通过扫描返回下标连接从机蓝牙
 
 | 指令 | 响应 | 参数 |
 |---- | ----| ----|
 | AT+CONN=<  Param  > |	OK+CONN=< Param > |	扫描从机蓝牙下标数字 |
 
-12、通过Mac地址连接从机蓝牙
+14、通过Mac地址连接从机蓝牙
 
 | 指令 | 响应 | 参数 |
 |---- | ----| ----|
@@ -326,19 +337,19 @@ OK
 AT+CONN=1代表连接扫描得到的第二个蓝牙设备
 AT+CON=d0:44:7a:9e:e4:e4直接连接Mac地址为d0:44:7a:9e:e4:e4的设备
 
-13、开启蓝牙自动连接模式    开启后，蓝牙模块将自动连接上次成功连接过的设备
+15、开启蓝牙自动连接模式    开启后，蓝牙模块将自动连接上次成功连接过的设备
 
 | 指令 | 响应 | 参数 |
 |---- | ----| ----|
 | AT+AUTOCON=<  Param  > | +AUTOCON=<  Param  ><br />OK |  0:关闭自动连接 <br>1:开机自动连接  |
 
-14、断开当前连接蓝牙设备
+16、断开当前连接蓝牙设备
 
 | 指令 | 响应 | 参数 |
 |---- | ----| ----|
 | AT+DISCON |	+DISCON<br />OK |	无 |
 
-15、设置蓝牙的连接是否需要密码
+17、设置蓝牙的连接是否需要密码
 
 | 指令 | 响应 | 参数 |
 |---- | ----| ----|
@@ -349,12 +360,6 @@ AT+CON=d0:44:7a:9e:e4:e4直接连接Mac地址为d0:44:7a:9e:e4:e4的设备
 | 指令 | 响应 | 参数 |
 |---- | ----| ----|
 |AT+PASS=< Param > |	+PASS=< Param ><br />OK |  |
-
-17、设置蓝牙的工作模式
-
-| 指令 | 响应 | 参数 |
-|---- | ----| ----|
-|AT+MODE=< Param > |	+MODE=< Param ><br />OK | 0:透传<br>1:驱动模式<br>2:iBeacon |
 
 18、设置蓝牙的USB和蓝牙数据传输模式
 
@@ -587,5 +592,7 @@ void loop() {
 答：支持手机端编程，但需要手机这边参考https://github.com/nulllab-org/arduino_ble_flash_demo二次开发。
 
 ## 联系我们
+
+[淘宝购买连接](https://item.taobao.com/item.htm?id=689443436523&spm=a1z10.3-c-s.w4002-21556097790.9.146735ccmW0Z1O&skuId=4907219236897) 
 
 **技术+合作**  wechat号: jundi0808(ken@emakefun.com)

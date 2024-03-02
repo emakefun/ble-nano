@@ -235,12 +235,11 @@ AT instruction can also be used to control directly through a Type-C data cable 
 |14 |	AT+CON |	Connect to the Bluetooth device with the corresponding MAC address |	M |  |
 |15 |	AT+AUTOCON |	Automatically bind and connect to the last successfully connected slave device, the settings will take effect after restarting |	M | 0 |
 |16 |	AT+DISCON |	Disconnect the current connection | M |  |
-|17 |	AT+MODE |	Set the Bluetooth working mode |	M/S |	0 |
-|18 |	AT+BLEUSB | Set the Bluetooth USB and Bluetooth data transfer mode |	M/S | 0 |
-|19 |	AT+TXPOWER	 | Set the Bluetooth transmit power | M/S |	0 |
-|20	| AT+MINI_INTERVAL |	Set the minimum communication interval for BLE Nano |	M/S	 | 6 |
-|21	| AT+MAX_INTERVAL |	Set the maximum communication interval for BLE Nano |	M/S	 | 6  |
-|22 |	AT+SERVUUID |	Get the Bluetooth characteristic code SERVUUID |	M/S	 | 0xFFE0 |
+|17 |	AT+BLEUSB | Set the Bluetooth USB and Bluetooth data transfer mode |	M/S | 0 |
+|18 |	AT+TXPOWER	 | Set the Bluetooth transmit power | M/S |	0 |
+|19	| AT+MINI_INTERVAL |	Set the minimum communication interval for BLE Nano |	M/S	 | 6 |
+|20	| AT+MAX_INTERVAL |	Set the maximum communication interval for BLE Nano |	M/S	 | 6  |
+|21 |	AT+SERVUUID |	Get the Bluetooth characteristic code SERVUUID |	M/S	 | 0xFFE0 |
 |22 |	AT+CHARUUID |	Get the character characteristic code CHARUUID |	M/S |	0xFFE1 |
 |23 |	AT+SETTING |	Restore factory system settings, with parameters |	M/S |  |
 | 24 |	AT+SLEEP（Not implemented yet） |	Set sleep mode |	M/S |  |
@@ -295,25 +294,37 @@ AT instruction can also be used to control directly through a Type-C data cable 
 |---- | ----| ----|
 |AT+MAC |	+MAC=< Result ><br />OK	| None |
 
-9、Query or set Bluetooth master/slave mode
+9、Set whether Bluetooth connection requires authentication
+
+| Instruction | Response                 | Parameter                                |
+| ----------- | ------------------------ | ---------------------------------------- |
+| AT+AUTH     | +AUTH=< Result ><br />OK | 0: no need <br />1: need authenticatuion |
+
+10、Set the password for the Bluetooth connection
+
+| Instruction        | Response                | Parameter    |
+| ------------------ | ----------------------- | ------------ |
+| AT+ PASS=< Param > | +PASS=< Param ><br />OK | 6 bit numble |
+
+11、Query or set Bluetooth master/slave mode
 
 | Instruction | Response | Parameter |
 |---- | ----| ----|
 |AT+ROLE=< Param > |	+ROLE=< Param ><br />OK | 0:master <br> 1:slave |
 
-10、Scan for nearby slaves in Bluetooth host mode
+12、Scan for nearby slaves in Bluetooth host mode
 
 | Instruction | Response | Parameter |
 |---- | ----| ----|
 | AT+SCAN |	+SCAN <br> OK<br />mac[1]:xxxx <br>mac[2]:xxxx <br/> …… <br> |	None |
 
-11、Connect to a slave Bluetooth device by scanning return subscript
+13、Connect to a slave Bluetooth device by scanning return subscript
 
 | Instruction | Response | Parameter |
 |---- | ----| ----|
 | AT+CONN=<  Param  > |	OK+CONN=< Param > |	Scan slave Bluetooth subscript number |
 
-12、Connect to a slave Bluetooth device by using the MAC address
+14、Connect to a slave Bluetooth device by using the MAC address
 
 | Instruction | Response | Parameter |
 |---- | ----| ----|
@@ -332,35 +343,23 @@ OK
 AT+CONN=1 represents Connecting to the second Bluetooth device obtained from the scan
 AT+CON=d0:44:7a:9e:e4:e4 Directly connect to the device with the MAC address d0:44:7a:9e:e4:e4
 
-13、Enable Bluetooth auto-connect mode. When enabled, the Bluetooth module will automatically connect to the last successfully connected device
+15、Enable Bluetooth auto-connect mode. When enabled, the Bluetooth module will automatically connect to the last successfully connected device
 
 | Instruction | Response | Parameter |
 |---- | ----| ----|
 | AT+AUTOCON=<  Param  > | +AUTOCON=<  Param  ><br />OK |  0:Disable auto-connect <br>1:Enable auto-connect  |
 
-14、Disconnect the currently connected Bluetooth device
+16、Disconnect the currently connected Bluetooth device
 
 | Instruction | Response | Parameter |
 |---- | ----| ----|
 | AT+DISCON |	+DISCON<br />OK |	None |
 
-15、Set whether a password is required for the Bluetooth connection
+17、Set whether a password is required for the Bluetooth connection
 
 | Instruction | Response | Parameter |
 |---- | ----| ----|
 | AT+AUTH=<  Param  >  | +AUTH=< Param ><br />OK | 0:Connect without a password <br>1:Connect with a password |
-
-16、Set the password for the Bluetooth connection
-
-| Instruction | Response | Parameter |
-|---- | ----| ----|
-|AT+ PASS=< Param > |	+PASS=< Param ><br />OK |  |
-
-17、Set the operating mode of Bluetooth
-
-| Instruction | Response | Parameter |
-|---- | ----| ----|
-|AT+ MODE=< Param > |	+MODE=< Param ><br />OK | 0:Transparent transmission<br>1:Driver mode<br>2:iBeacon |
 
 18、Set the USB and Bluetooth data transfer mode for Bluetooth
 
@@ -401,8 +400,8 @@ AT+CON=d0:44:7a:9e:e4:e4 Directly connect to the device with the MAC address d0:
 ## Development Guide
 
 Because the Bluetooth of the product has transparent transmission function, Bluetooth programming actually involves reading and writing operations on the Arduino serial port (Serial). When programming, we need to pay attention to two points:
-1、The BLE protocol specifies that the length of each Bluetooth data packet cannot exceed 20 bytes. Our Bluetooth module has implemented packet segmentation for transmission, but there is a low probability of packet loss. Therefore, when the data exceeds 20 bytes, dividing it into smaller packets and sending them using Arduino is the most reliable method.
-2、Each packet of data should have an interval of more than 150ms between transmissions, otherwise, there is a higher chance of packet loss.
+1、The BLE protocol specifies that the length of each Bluetooth data packet cannot exceed 64 bytes. Our Bluetooth module has implemented packet segmentation for transmission, but there is a low probability of packet loss. Therefore, when the data exceeds 64 bytes, dividing it into smaller packets and sending them using Arduino is the most reliable method.
+2、Each packet of data should have an interval of more than 100ms between transmissions, otherwise, there is a higher chance of packet loss.
 
 ## AT Instruction Testing
 
