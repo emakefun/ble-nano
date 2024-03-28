@@ -427,8 +427,9 @@ void setup() {
   Serial.begin(115200);
   pinMode(led_pin, OUTPUT);
   Serial.println("AT+ROLE=0");  // Set the Bluetooth as the host
-  delay(10);  // After setting the AT commands, it is necessary to delay for 10ms
+  delay(50);  // After setting the AT commands, it is necessary to delay for 10ms
   Serial.println("AT+CON=83:46:8c:e4:c2:84");  //Connect to the Bluetooth slave with the MAC address
+  delay(50);
 }
 
 void loop() {
@@ -483,9 +484,9 @@ void setup() {
   Serial.begin(115200);
   pinMode(led_pin, OUTPUT);
   Serial.println("AT+ROLE=0");  // Set the Bluetooth as the host
-  delay(10);
+  delay(50);
   Serial.println("AT+BLEUSB=0");  // Set the data communication mode to 0
-  delay(10);
+  delay(50);
   Serial.println("AT+CON=83:46:8c:e4:c2:84");  // Connect to the Bluetooth slave with the MAC address
   //delay(10);
   ble_data = "";
@@ -510,9 +511,9 @@ void loop() {
 
   if (ble_status)
   {
-	  Serial.println("on");
+	  Serial.print("on");
 	  delay(1000);
-	  Serial.println("off");
+	  Serial.print("off");
 	  delay(1000);
   }
 }
@@ -527,10 +528,10 @@ int led_pin = 13;
 void setup() {
   Serial.begin(115200);
   pinMode(led_pin, OUTPUT);
-  Serial.println("AT+ROLE=1");  // Set the Bluetooth as the host
-  delay(10);
+  Serial.println("AT+ROLE=1");  // Set the Bluetooth as the slave
+  delay(50);
   Serial.println("AT+BLEUSB=0");  //Set the data communication mode to 0
-  //delay(10);
+  delay(50);
 }
 
 void loop() {

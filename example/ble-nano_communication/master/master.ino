@@ -8,7 +8,7 @@ void setup() {
   delay(50);
   Serial.println("AT+BLEUSB=0");  // 设置蓝牙为主机
   delay(50);
-  Serial.println("AT+CON=83:46:8c:e4:c2:84");  //连接mac地址的蓝牙从机
+  Serial.println("AT+CON=f7:9a:d4:a7:14:54");  //连接mac地址的蓝牙从机
   delay(50);
   ble_data = "";
   while (Serial.available() > 0)  
@@ -32,9 +32,9 @@ void loop() {
 
   if (ble_status)
   {
-	  Serial.println("on");
+	  Serial.print("on");
 	  delay(1000);
-	  Serial.println("off");
+	  Serial.print("off");
 	  delay(1000);
   }
 }

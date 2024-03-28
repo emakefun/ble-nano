@@ -4,7 +4,7 @@ int led_pin = 13;
 void setup() {
   Serial.begin(115200);
   pinMode(led_pin, OUTPUT);
-  Serial.println("AT+ROLE=1");  // 设置蓝牙为主机
+  Serial.println("AT+ROLE=1");  // 设置蓝牙为从机
   delay(50);
   Serial.println("AT+BLEUSB=0");  //设置数据通信模式为0
   delay(50);
