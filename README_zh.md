@@ -16,7 +16,7 @@
 
 ## 什么是ble-nano
 
-​	ble-nano是emakefun公司基于官方标准Arduino Nano V3.0主板上集成低功耗蓝牙芯片而开发一款具备无线蓝牙功能的开发板，它的功能和引脚，使用方法，完全兼容标准的Arduino Nano V3.0主板，工作频段为2.4GHZ 范围，调制方式为 GFSK， 接收灵敏度-96dBm，最大发射功率为+5db，最大发射距离超过200米，采用RISC-V架构CH573芯片设计，支持用户通过AT命令查看修改设备名、服务UUID、发射功率、配对密码等指令，方便快捷使用。产品身材非常小，适合于很多对于体积有苛刻限制的应用。
+​	ble-nano是emakefun公司基于官方标准Arduino Nano V3.0主板上集成低功耗蓝牙芯片而开发一款具备无线蓝牙功能的开发板，它的功能和引脚，使用方法，完全兼容标准的Arduino Nano V3.0主板，工作频段为2.4GHZ 范围，调制方式为 GFSK， 接收灵敏度-96dBm，最大发射功率为+5db，最大发射距离超过200米，采用RISC-V架构CH571F芯片设计，支持用户通过AT命令查看修改设备名、服务UUID、发射功率、配对密码等指令，方便快捷使用。产品身材非常小，适合于很多对于体积有苛刻限制的应用。
 
 ​	提供Android和IOS手机demo，你可以借助Arduino应用生态，快速开发出一款与手机通信的硬件设备。正如现在非常火爆的可穿戴式手机周边设备，都可以用ble-nano这款硬件开发，你可以使用ble-nano与BLE蓝牙设备连接，也可以两个ble-nano主从通信。同时我们为开发者提供了极大的自由度和支持准备，用户不仅可以通过AT指令调试ble-nano，你还可以在ble-nano控制器上添加Arduino兼容的扩展板、传感器、电机和舵机驱动等，当然最大的亮点是你可以通过手机蓝牙直接给ble-nano下载程序。
 
@@ -30,7 +30,7 @@
 
 #### 低功耗蓝牙BLE参数
 
-* BLE芯片: RISC-V架构ch57xF芯片（高度兼容TI CC2540蓝牙SOC）
+* BLE芯片: RISC-V架构ch571F芯片（高度兼容TI CC2540蓝牙SOC）
 * 工作频道: 2.4G
 * 0dBm 发送功率时电流 6mA  
 * 接收灵敏度  -96dBm，可编程+5dBm 发送功率  。
@@ -101,7 +101,7 @@ ble-nano烧写的为最新Arduino Nano官方Bootloader所以需要使用IDE 1.8.
 
 选择开发板类型为Arduino Nano 处理器为 ATmega328P，如下图
 
-![ide](./image/ide_downloard.png)
+![ide](./image/ide_uploard_zh.png)
 
 ## ble-nano支持手机apk蓝牙下载程序
 
@@ -482,7 +482,7 @@ void loop() {
 
 二、我们可以分别对主机和从机ble-nano分别编程来控制从机ble-nano的L灯亮和灭。
 
-主机程序如下[master](./example/ble-nano_communication/master/master.ino)
+主机程序如下[master](./example/ble_communication/master/master.ino)
 
 ```c
 String ble_data;
@@ -527,7 +527,7 @@ void loop() {
 }
 ```
 
-从机程序如下[slave](./example/ble-nano_communication/slave/slave.ino)
+从机程序如下[slave](./example/ble_communication/slave/slave.ino)
 
 ```c
 String ble_data;

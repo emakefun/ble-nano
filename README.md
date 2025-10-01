@@ -107,7 +107,7 @@ Please go to the [Arduino官网](https://www.arduino.cc/en/Main/Software) to dow
 
 To select the board type as Arduino Nano with the processor ATmega328P, like below:
 
-![ide](./image/ide_downloard.png)
+![ide](./image/ide_uploard.png)
 
 Mobile Phone support download programming
 
